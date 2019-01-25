@@ -7,7 +7,11 @@ This is a very simple app that displays the following:
 
 
 ## Getting Started
+
+Clone to Desktop
+
 ```bash
+$ cd Desktop/express-poke-api
 $ npm i
 $ npm start
 ```
