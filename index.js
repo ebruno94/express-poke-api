@@ -8,7 +8,7 @@ const app = express();
 const router = express.Router();
 
 // SET PORTS
-const API_PORT = process.env.API_PORT || 3047;
+const API_PORT = process.env.API_PORT || 3057;
 
 // // Config API to use Body Parser;
 // app.use(bodyParser.urlencoded({ extended: false }));
@@ -19,8 +19,8 @@ const API_PORT = process.env.API_PORT || 3047;
 router.get('/', (req, res) => {
   res.send({
     server: {
-      name: 'Pokemon API Server',
-      apiVersion: '0.0001'
+      name: 'Small Pokemon API Server',
+      apiVersion: '0.2'
     },
     availableData: {
       pokemon: {
@@ -28,7 +28,7 @@ router.get('/', (req, res) => {
         description: 'Display the first 150 Pokemon'
       },
       favePokemon: {
-        name: 'Favorite Pokemon',
+        name: 'Favorite Pokemon (under construction)',
         description: 'Display top 5 Pokemon among the first 150'
       },
       pokeballs: {
@@ -62,26 +62,26 @@ router.get('/pokemon', (req, res) => {
 
 // router.get('/favePokemon', (req, res) => {
 //   let pokeArray = [];
-//   // ["scyther", "jigglypuff", "zapdos", "mewtwo", "pikachu"]
-//   let favoritePokeNames = ["123", "25", "145", "150", "39"]
-//   favoritePokeNames.forEach((name) => {
-//     request(`https://pokeapi.co/api/v2/pokemon/?limit=150`), (err, response, body) => {
-//       if (err || !body) {
-//         res.send('An error has occurred during the process. Please try again later.');
-//       };
-//       let results = JSON.parse(body).results;
-//       console.log(results);
-//       // pokeArray.push({
-//       //   pokemon: results.name,
-//       //   infoUrl: `https://pokeapi.co/api/v2/pokemon/${results.name}`
-//       // });
+// 
+//   request(`https://pokeapi.co/api/v2/pokemon/?limit=150`, (err, response, body) => {
+//     if (err || !body) {
+//       res.send('An error has occurred during the process. Please try again later.');
 //     };
+//     // ["scyther", "jigglypuff", "zapdos", "mewtwo", "pikachu"]
+//     let favoritePoke = [123, 25, 145, 150, 39]
+//     favoritePoke.forEach((pokeNumber) => {
+//       let pokeResult = JSON.parse(body).results[pokeNumber + 1];
+//       pokeArray.push({
+//         pokemon: pokeResult.name,
+//         infoUrl: `https://pokeapi.co/api/v2/pokemon/${pokemon.name}`
+//       });
+//     });
 //   });
-//   // res.send({
-//   //   format: 'array of objects',
-//   //   dataSet: pokeArray
-//   // })
-// })
+//   res.send({
+//     format: 'array of objects',
+//     dataSet: pokeArray
+//   })
+// });
 
 router.get('/pokeballs', (req, res) => {
   request('https://pokeapi.co/api/v2/item/?limit=16', (err, response, body) => {
