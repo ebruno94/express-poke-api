@@ -8,7 +8,7 @@ const app = express();
 const router = express.Router();
 
 // SET PORTS
-const API_PORT = process.env.API_PORT || 3032;
+const API_PORT = process.env.API_PORT || 3035;
 
 // // Config API to use Body Parser;
 // app.use(bodyParser.urlencoded({ extended: false }));
@@ -16,7 +16,7 @@ const API_PORT = process.env.API_PORT || 3032;
 // app.use(logger('dev'));
 
 // Set route paths & initialize API
-router.get('/', (req, res) => {
+router.get('/pokemon', (req, res) => {
   request('https://pokeapi.co/api/v2/pokemon', (err, response, body) => {
     if (err || !body) {
       res.send('An error has occurred during the process. Please try again');
@@ -31,14 +31,19 @@ router.get('/', (req, res) => {
     });
     res.send({
       server: {
-        intro: "Here are the first 20 pokemon!",
-        results: pokeArray
+        name: 'Pokemon API Server',
+        apiVersion: '0.0001'
+      },
+      availableData: {
+        firstTwenty: {
+          results: pokeArray
+        }
       }
     })
   });
 });
 
-app.use('/pokemon', router);
+app.use('/', router);
 
 
 app.listen(API_PORT, () => console.log(`Listening on port ${API_PORT}`));
