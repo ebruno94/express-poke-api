@@ -8,7 +8,7 @@ const app = express();
 const router = express.Router();
 
 // SET PORTS
-const API_PORT = process.env.API_PORT || 3057;
+const API_PORT = process.env.API_PORT || 3001;
 
 // // Config API to use Body Parser;
 // app.use(bodyParser.urlencoded({ extended: false }));
@@ -60,28 +60,31 @@ router.get('/pokemon', (req, res) => {
   });
 });
 
-// router.get('/favePokemon', (req, res) => {
-//   let pokeArray = [];
-// 
-//   request(`https://pokeapi.co/api/v2/pokemon/?limit=150`, (err, response, body) => {
-//     if (err || !body) {
-//       res.send('An error has occurred during the process. Please try again later.');
-//     };
-//     // ["scyther", "jigglypuff", "zapdos", "mewtwo", "pikachu"]
-//     let favoritePoke = [123, 25, 145, 150, 39]
-//     favoritePoke.forEach((pokeNumber) => {
-//       let pokeResult = JSON.parse(body).results[pokeNumber + 1];
-//       pokeArray.push({
-//         pokemon: pokeResult.name,
-//         infoUrl: `https://pokeapi.co/api/v2/pokemon/${pokemon.name}`
-//       });
-//     });
-//   });
-//   res.send({
-//     format: 'array of objects',
-//     dataSet: pokeArray
-//   })
-// });
+router.get('/favePokemon', (req, res) => {
+
+
+  request(`https://pokeapi.co/api/v2/pokemon/?limit=150`, (err, response, body) => {
+    if (err || !body) {
+      res.send('An error has occurred during the process. Please try again later.');
+    };
+    // ["scyther", "jigglypuff", "zapdos", "mewtwo", "pikachu"]
+    let favoritePoke = [123, 25, 145, 150, 39]
+    let result = JSON.parse(body).results;
+    let pokeArray = result.filter((pokemon) => pokemon.name === "scyther" ||
+            pokemon.name === "jigglypuff" ||
+            pokemon.name === "zapdos" ||
+            pokemon.name === "mewtwo" ||
+            pokemon.name === "pikachu")
+            .map((poke) => ({
+                  pokemon: poke.name,
+                  infoUrl: `https://pokeapi.co/api/v2/pokemon/${poke.name}`
+            }));
+    res.send({
+      format: 'array of objects',
+      dataSet: pokeArray
+    })
+  });
+});
 
 router.get('/pokeballs', (req, res) => {
   request('https://pokeapi.co/api/v2/item/?limit=16', (err, response, body) => {
